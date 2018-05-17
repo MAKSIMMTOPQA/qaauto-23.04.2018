@@ -6,9 +6,29 @@ public class LinkedinLoginPage {
 
          private WebDriver webDriver;
 
-    private WebElement searchMail = webDriver.findElement(By.xpath("//input[@class='login-email']"));
-    private WebElement searchPass = webDriver.findElement(By.xpath("//input[@name='session_password']"));
-    private WebElement buttonSubmit = webDriver.findElement(By.xpath("//input[@id='login-submit']"));
+
+
+//         LinkedinLoginPage (WebDriver webDriver){
+//
+//             this.webDriver = webDriver;
+//         }
+
+    private WebElement searchMail;
+    private WebElement searchPass;
+    private WebElement buttonSubmit;
+
+    public LinkedinLoginPage(WebDriver webDriver) {
+         this.webDriver = webDriver;
+         initElements();
+    }
+
+    public void initElements(){
+        searchMail = webDriver.findElement(By.xpath("//input[@class='login-email']"));
+        searchPass = webDriver.findElement(By.xpath("//input[@name='session_password']"));
+        buttonSubmit = webDriver.findElement(By.xpath("//input[@id='login-submit']"));
+    }
+
+
 
     public void login(String email, String password){
 
@@ -17,4 +37,19 @@ public class LinkedinLoginPage {
         buttonSubmit.click();
     }
 
+    public boolean isSearchButtonDisplayed(){
+        return buttonSubmit.isDisplayed();
+    }
+
+    public String getCurrentUrl(){
+
+        return webDriver.getCurrentUrl();
+
+
+    }
+
+    public String getCurrentTitle(){
+
+        return webDriver.getTitle();
+    }
 }
