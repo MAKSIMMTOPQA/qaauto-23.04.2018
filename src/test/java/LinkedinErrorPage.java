@@ -2,33 +2,36 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class LinkedinErrorPage {
+public class LinkedinErrorPage extends LinkedInBasePage {
 
-    private WebDriver webDriver;
+
     private WebElement errorMessage;
+    private WebElement emailField;
     public LinkedinErrorPage(WebDriver webDriver) {
-        this.webDriver = webDriver;
+        super(WebDriver);
         initElements();
     }
 
 
-    public String getCurrentUrl() {
-        return webDriver.getCurrentUrl();
 
-    }
-
-    public String getCurrentTitle(){
-
-        return webDriver.getTitle();
-    }
 
     public void initElements()
     {
+
         errorMessage = webDriver.findElement(By.xpath("//div[@role='alert']"));
+        emailField = webDriver.findElement(By.id("session_key-login"));
+    }
+
+    public boolean isPageLoaded(){
+        return emailField.isDisplayed();
+
+
     }
 
 
+
     public String getErrorText(){
+
         return errorMessage.getText();
     }
 

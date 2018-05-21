@@ -1,10 +1,9 @@
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static java.lang.Thread.sleep;
@@ -19,27 +18,31 @@ import static java.lang.Thread.sleep;
 
     }
 
+        @DataProvider
+        public Object[][] validDataProvider() {
+            return new Object[][]{
+                    {"m.korshikov@everad.com", "q124578fg"},
+                    {"M.KORSHIKOV@EVERAD.COM", "q124578fg"},
 
-    @Test
-    public void succeccfullLoginTest() throws InterruptedException {
+            };
+
+        }
+    @Test(dataProvider = "validDataProvider")
+    public void succeccfullLoginTest(String email, String password) throws InterruptedException {
 
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
-        String actualLoginPageTitle  = linkedinLoginPage.getCurrentTitle();
-
         Assert.assertEquals(linkedinLoginPage.getCurrentTitle(),
                 "LinkedIn: Войти или зарегистрироваться",
                 "Login page is wrong");
         Assert.assertTrue(linkedinLoginPage.isSearchButtonDisplayed(),
                 "Singin buton is not displayed");
-
-        linkedinLoginPage.login("m.korshikov@everad.com","q124578fg");
+        linkedinLoginPage.login(email, password);
 
 
 
         LinkedinHomePage linkedinHomePage = new LinkedinHomePage (webDriver);
-
         Assert.assertEquals(linkedinHomePage.getCurrentUrl(),
-                "https://www.linkedin.com/",
+                "https://www.linkedin.com/feed/",
                 "ERROR IN AUTORIZATION FORM");
         Assert.assertTrue(linkedinHomePage.getCurrentTitle().contains("LinkedIn"),
                 "Home page title is wrong");
@@ -49,8 +52,10 @@ import static java.lang.Thread.sleep;
 
     }
 
+
+
     @Test
-    public void notsucceccfullLoginTest() throws InterruptedException {
+    public void negativeReturnedToLogInSubmitTest() throws InterruptedException {
 
 
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
@@ -61,6 +66,8 @@ import static java.lang.Thread.sleep;
 
 
         sleep(2000);
+
+        Assert.assertTrue(linkedinErrorPage.isPageLoaded(),"Login Error page is not loaded");
         Assert.assertEquals(linkedinErrorPage.getCurrentUrl(),
                 "https://www.linkedin.com/uas/login-submit",
                 "ERROR IN AUTORIZATION FORM");
@@ -70,6 +77,8 @@ import static java.lang.Thread.sleep;
         Assert.assertEquals(linkedinErrorPage.getErrorText(),
                 "При заполнении формы были допущены ошибки. Проверьте и исправьте отмеченные поля.",
                 "Wrong error massage text displayed");
+
+
     }
 
     @Test
