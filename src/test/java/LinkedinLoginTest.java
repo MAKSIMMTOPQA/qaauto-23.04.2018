@@ -36,15 +36,12 @@ import static java.lang.Thread.sleep;
                 "Login page is wrong");
         Assert.assertTrue(linkedinLoginPage.isSearchButtonDisplayed(),
                 "Singin buton is not displayed");
-        linkedinLoginPage.login(email, password);
 
-
-
-        LinkedinHomePage linkedinHomePage = new LinkedinHomePage (webDriver);
-        Assert.assertEquals(linkedinHomePage.getCurrentUrl(),
+        LinkedInHomePage linkedInHomePage = linkedinLoginPage.login(email,password);
+        Assert.assertEquals(linkedInHomePage.getCurrentUrl(),
                 "https://www.linkedin.com/feed/",
                 "ERROR IN AUTORIZATION FORM");
-        Assert.assertTrue(linkedinHomePage.getCurrentTitle().contains("LinkedIn"),
+        Assert.assertTrue(linkedInHomePage.getCurrentTitle().contains("LinkedIn"),
                 "Home page title is wrong");
 
         sleep(5000);
@@ -132,7 +129,7 @@ import static java.lang.Thread.sleep;
                 "LinkedIn: Войти или зарегистрироваться",
                 "login submit title is wrong");
         Assert.assertTrue(linkedinLoginPage.isSearchButtonDisplayed(), "Singin buton is not displayed");
-        linkedinLoginPage.login("","");
+        linkedinLoginPage.login("", "");
         Assert.assertEquals(linkedinLoginPage.getCurrentTitle(),
                 "LinkedIn: Войти или зарегистрироваться",
                 "login submit title is wrong");
@@ -140,10 +137,22 @@ import static java.lang.Thread.sleep;
         sleep(2000);
         Assert.assertEquals(linkedinLoginPage.getCurrentUrl(), "https://www.linkedin.com/", "ERROR IN AUTORIZATION FORM");
 
+    }
+        @Test
+            public void successfulResetPasswordTest() throws InterruptedException {
+            LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
 
+            LinkeInPassRecovery linkeInPassRecovery = linkedinLoginPage.passRecoveryClick();
 
+            sleep(2000);
+
+            linkeInPassRecovery.sendEmail();
 
         }
+
+
+
+
 
         @AfterMethod
         public void after() {

@@ -8,7 +8,7 @@ public class LinkedinErrorPage extends LinkedInBasePage {
     private WebElement errorMessage;
     private WebElement emailField;
     public LinkedinErrorPage(WebDriver webDriver) {
-        super(WebDriver);
+        super(webDriver);
         initElements();
     }
 
